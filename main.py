@@ -18,24 +18,10 @@ class SchoolManagementSystem:
         #load existing student records from file
         self.load_student_records()
         
-        # Sample class data
-        self.classes = {
-            "Playgroup" : {"Fees": 820, "Feeding_fees" : 8, "teacher": "Teacher 1", "students": ["student 1", "student 2", "student 3"]},
-            "Nusery 1" : {"Fees": 820, "Feeding_fees" : 8, "teacher": "Teacher 2", "students": ["student 4", "student 5", "student 6"]},
-            "Nursery 2" : {"Fees": 820, "Feeding_fees" : 8, "teacher": "Teacher 3", "students": ["student 7", "student 8", "student 9"]},
-            "Kindergarten 1" : {"Fees": 820, "Feeding_fees" : 8, "teacher": "Teacher 4", "students": ["student 10", "student 11", "student 12"]},
-            "Kindergarten 2" : {"Fees": 820, "Feeding_fees" : 8, "teacher": "Teacher 5", "students": ["student 13", "student 14", "student 15"]},
-            "Class 1" : {"Fees": 870, "Feeding_fees" : 9, "teacher": "Teacher 6", "students": ["student 16", "student 17", "student 18"]},
-            "Class 2" : {"Fees": 870, "Feeding_fees" : 9, "teacher": "Teacher 7", "students": ["student 19", "student 20", "student 21"]},
-            "Class 3" : {"Fees": 870, "Feeding_fees" : 9, "teacher": "Teacher 8", "students": ["student 22", "student 23", "student 24"]},
-            "Class 4" : {"Fees": 870, "Feeding_fees" : 9, "teacher": "Teacher 9", "students": ["student 25", "student 26", "student 27"]},
-            "Class 5" : {"Fees": 870, "Feeding_fees" : 9, "teacher": "Teacher 10", "students": ["student 28", "student 29", "student 30"]},
-            "Class 6" : {"Fees": 870, "Feeding_fees" : 9, "teacher": "Teacher 11", "students": ["student 31", "student 32", "student 33"]},
-        }
-
+       
         self.create_widgets()
 
-        #code to load student_records  
+    #Code to load student_records  
     def load_student_records(self):
         try:
             with open("student_records.json","r") as file:
@@ -44,11 +30,13 @@ class SchoolManagementSystem:
             #If the file is doesn't exist, initialize an empty list
             self.students = []    
         
-        #code to save student records    
+        
+    #Code to save student records    
     def save_student_records(self):
         with open("student_records.json","w") as file:
             json.dump(self.students, file , indent=4)                
 
+    #Code to create widgets
     def create_widgets(self):
         # Define color variables
         bg_color = "#808080"  # Light gray for background
@@ -99,8 +87,9 @@ class SchoolManagementSystem:
         self.btn_check_profit = tk.Button(self.master, text="Check Profit/Loss", command=self.check_profit_loss, bg="#FF5733", fg=btn_text_color)
         self.btn_check_profit.pack()
 
+
+    #Code to add a new student record
     def add_student(self):
-        # Code to add a new student record
         #Gather Student information
         #if it's open, bring it to focus
         if hasattr(self, "add_student_window") and self.add_student_window.winfo_exists():
@@ -158,8 +147,8 @@ class SchoolManagementSystem:
         
         pass
 
+    #Code to delete a student record
     def delete_student(self):
-        # Code to delete a student record
         student_name = simpledialog.askstring("Delete Student", "Enter Student's name to delete:")
         if student_name:
             deleted = False
@@ -172,10 +161,11 @@ class SchoolManagementSystem:
             else:
                 messagebox.showerror("Error", f"Student '{student_name}' not found.")            
     
+    #Code to modify student records
     def modify_student(self):
         student_name = simpledialog.askstring("Modify Student","Enter student's name to modify:")
         if student_name:
-           for student in self.student:
+           for student in self.students:
                if student["Name"] == student_name:
                    #Allow modification of student information
                    student["Name"] = simpledialog.askstring("Modify Student", "Enter student's new name:", initialvalue=student["Name"])
@@ -188,10 +178,11 @@ class SchoolManagementSystem:
                    student["MedicalInfo"]=simpledialog.askstring("Modify Student", "Enter student's new medical info:", initialvalue=student["MedicalInfo"])
                    student["Email Addres"]=simpledialog.askstring("Modify student", "Enter student's new email address:", initialvalue=student["Email Address"])
                    student["Emergency Contact"]=simpledialog.askstring("Modify Student","Enter student's new emergency contact:",initialvalue=student["Emergency contact"])
-                   messagebox.shoeinfo("Success",f"Information of student {student_name} has been mofified.")
+                   messagebox.showinfo("Success",f"Information of student {student_name} has been mofified.")
                    return
         messagebox.showerror("Error", f"Student '{student_name}' not found.")
 
+    #Code to view student records
     def view_student_records(self):
         # Check if the student records window is already open
         if hasattr(self, "student_records_window") and self.student_records_window.winfo_exists():
@@ -240,14 +231,12 @@ class SchoolManagementSystem:
                 info_label.grid(row=row, column=1, sticky="w")
 
         # Update the scroll region to fit the contents of the student frame
-        canvas.update_idletasks()
+        student_frame.update_idletasks()
         canvas.config(scrollregion=canvas.bbox("all"))
 
-
+    #Code to add a new teacher record
     def add_teacher(self):
-        # Code to add a new teacher record
-        # Code to add a new student record
-        #Gather Student information
+        #Gather Teacher information
         teacher_id = str(uuid.uuid4())[:8] # Generate unique student ID
         teacher_name = simpledialog.askstring("Add Teacher", "Enter teacher's name")
         teacher_dob = simpledialog.askstring("Add Teacher", "Enter teacher's date of birth (YYYY-MM-DD)")
@@ -276,7 +265,7 @@ class SchoolManagementSystem:
             "Teacher Emergency Contact" : teacher_emergency_contact
         }
         
-        #Add student to the list
+        #Add teacher to the list
         self.teachers.append(teacher)
         
         #Show success message
@@ -284,8 +273,8 @@ class SchoolManagementSystem:
         
         pass
             
+    #Code to delete a teacher record            
     def delete_teacher(self):
-        #code to delete a teacher record
         teacher_name = simpledialog.askstring("Delete Teacher", "Enter Teacher's name to delete:")
         if teacher_name:
             deleted = False
@@ -298,8 +287,8 @@ class SchoolManagementSystem:
             else:
                 messagebox.showerror("Error", f"Teacher '{teacher_name}' not found.")           
 
+    #Code to modify teacher record
     def modify_teacher(self):
-        #Code to modify teacher record
         teacher_name = simpledialog.askstring("Modify Teacher","Enter teacher's name to modify:")
         if teacher_name:
            for teacher in self.teachers:
@@ -311,23 +300,29 @@ class SchoolManagementSystem:
                    teacher["Teacher Salary"]=simpledialog.askstring("Modify Teacher","Enter teacher's new salary:", initialvalue=teacher["Teacher Salary"])
                    teacher["Teacher Gender"]=simpledialog.askstring("Modify Teacher", "Enter teacher's new gender:", initialvalue=teacher["Teacher Gender"])
                    teacher["Teacher Address"]=simpledialog.askstring("Modify Teacher", "Enter teacher's new address:", initialvalue=teacher["Teacher Address"])
-                   teacher["Teacher Contact"]=simpledialog.askstring("Modify Teacher", "Enter teacher's new contact:", initialvalue=teacher["TEacher Contact"])
+                   teacher["Teacher Contact"]=simpledialog.askstring("Modify Teacher", "Enter teacher's new contact:", initialvalue=teacher["Teacher Contact"])
                    teacher["Teacher MedicalInfo"]=simpledialog.askstring("Modify Teacher", "Enter teacher's new medical info:", initialvalue=teacher["Teacher MedicalInfo"])
-                   teacher["Teacher Email Addres"]=simpledialog.askstring("Modify Teacher", "Enter teacher's new email address:", initialvalue=teacher["Teacher Email Address"])
+                   teacher["Teacher Email Address"]=simpledialog.askstring("Modify Teacher", "Enter teacher's new email address:", initialvalue=teacher["Teacher Email Address"])
                    teacher["Teacher Emergency Contact"]=simpledialog.askstring("Modify Teacher","Enter teacher's new emergency contact:",initialvalue=teacher["Teacher Emergency contact"])
-                   messagebox.shoeinfo("Success",f"Information of teacher {teacher_name} has been mofified.")
+                   messagebox.showinfo("Success",f"Information of teacher {teacher_name} has been mofified.")
                    return
         messagebox.showerror("Error", f"Teacher '{teacher_name}' not found.")
 
+    #Code to view teacher records
     def view_teacher_records(self):
-        # Create a new window to display teacher records
-        teacher_records_window = tk.Toplevel(self.master)
-        teacher_records_window.title("Teacher Records")
-        teacher_records_window.geometry("800x600")
-        teacher_records_window.configure(bg="#3498DB")  # Blue background
+        # Check if the student records window is already open
+        if hasattr(self, "teacher_records_window") and self.teacher_records_window.winfo_exists():
+            # If it's open, bring it to focus and return
+            self.teacher_records_window.lift()
+            return  
+        
+           # Create a new window to display student records
+        self.teacher_records_window = tk.Toplevel(self.master)
+        self.teacher_records_window.title("Student Records")
+        self.teacher_records_window.geometry("1000x800")  # Adjust the window size as needed
 
-        # Create a frame to hold the teacher records
-        records_frame = tk.Frame(teacher_records_window)
+        # Create a frame to hold the student records
+        records_frame = tk.Frame(self.teacher_records_window)
         records_frame.pack(fill=tk.BOTH, expand=True)
 
         # Add a scrollbar to the frame
@@ -341,113 +336,126 @@ class SchoolManagementSystem:
         # Configure the scrollbar to scroll the canvas
         scrollbar.config(command=canvas.yview)
 
-        # Create another frame inside the canvas to hold the teacher records
+        # Create another frame inside the canvas to hold the student records
         teacher_frame = tk.Frame(canvas)
         canvas.create_window((0, 0), window=teacher_frame, anchor=tk.NW)
 
-        # Function to update the scroll region when the size of the teacher frame changes
+        # Function to update the scroll region when the size of the student frame changes
         def on_frame_configure(event):
             canvas.configure(scrollregion=canvas.bbox("all"))
 
         teacher_frame.bind("<Configure>", on_frame_configure)
 
-        # Iterate over the teachers list and display their information
+        # Iterate over the teacher list and display their information
         for index, teacher in enumerate(self.teachers, start=1):
             teacher_label = tk.Label(teacher_frame, text=f"Teacher {index}:", font=("Arial", 12, "bold"))
             teacher_label.grid(row=index, column=0, sticky="w")
 
-        # Display teacher information
-        for key, value in teacher.items():
-            info_label = tk.Label(teacher_frame, text=f"{key}: {value}")
-            info_label.grid(row=index, column=1, sticky="w")
+            # Display teacher information
+            for row , (key, value) in enumerate(teacher.items(), start=index):
+                info_label = tk.Label(teacher_frame, text=f"{key}: {value}" , wraplength=500 , justify="left")
+                info_label.grid(row=row, column=1, sticky="w")
 
-        # Update the scroll region to fit the contents of the teacher frame
-        canvas.update_idletasks()
+        # Update the scroll region to fit the contents of the student frame
+        teacher_frame.update_idletasks()
         canvas.config(scrollregion=canvas.bbox("all"))
-
-    def view_records(self):
-        record_window = tk.Toplevel(self.master)
-        record_window.title("View Records")
-        record_window.geometry("600x400")
         
-        #create a canvas widget
-        canvas = tk.Canvas(record_window)
+    #Code to view General Records    
+    def view_records(self):
+        # Ensure self.students and self.teachers are lists and not empty
+        if not isinstance(self.students, list):
+            self.students = []
+        if not isinstance(self.teachers, list):
+            self.teachers = []
+
+        # Check if the records window is already open
+        if hasattr(self, "records_window") and self.records_window.winfo_exists():
+            self.records_window.lift()
+            return
+
+        # Create a new window to display records
+        self.records_window = tk.Toplevel(self.master)
+        self.records_window.title("View General Records")
+        self.records_window.geometry("1000x800")  # Adjusted size for better visibility
+
+        # Create a canvas widget
+        canvas = tk.Canvas(self.records_window)
         canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
 
-        #Add a scrollbar to the canvas
-        scrollbar = tk.Scrollbar(record_window, orient=tk.VERTICAL, command=canvas.yview)
+        # Add a scrollbar to the canvas
+        scrollbar = tk.Scrollbar(self.records_window, orient=tk.VERTICAL, command=canvas.yview)
         scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
         canvas.configure(yscrollcommand=scrollbar.set)
-        
-        #Create a frame inside the canvas to hold the records
+
+        # Create a frame inside the canvas to hold the records
         records_frame = tk.Frame(canvas)
-        canvas.create_window((0,0), window=records_frame, anchor=tk.NW)
-                
-        #populate the records inside the frame 
-        self.lbl_students = tk.Label(record_window, text="Students", font=("Arial",14))
-        self.lbl_students.pack()
+        canvas.create_window((0, 0), window=records_frame, anchor=tk.NW)
 
-        row_num = 0 #counter for grid row
-        for class_name, details in self.classes.items():
-            class_frame = tk.Frame(records_frame, bd=2, relief=tk.GROOVE)
-            class_frame.grid(row=row_num , column=0 , pady=10, padx=10 , sticky="ew")
+        # Function to update the scroll region when the size of the frame changes
+        def on_frame_configure(event):
+            canvas.configure(scrollregion=canvas.bbox("all"))
 
-            tk.Label(class_frame, text=f"Class: {class_name}", font=("Arial", 12, "bold")).grid(row=0, column=0, columnspan=2, sticky="w")
-            tk.Label(class_frame, text=f"Teacher: {details['teacher']}").grid(row=1, column=0, sticky="w")
+        records_frame.bind("<Configure>", on_frame_configure)
 
-            students = ", ".join(details["students"])
-            tk.Label(class_frame, text=f"Students: {students}").grid(row=2, column=0, sticky="w")
+        # Add labels for students and teachers
+        self.lbl_students = tk.Label(records_frame, text="Students", font=("Arial", 14, "bold"))
+        self.lbl_students.grid(row=0, column=0, padx=10, pady=10, sticky="w")
 
-            # Filter out teachers not assigned to this class
-            class_teacher = details["teacher"]
-            assigned_teachers = [teacher for teacher in self.teachers if teacher["Teacher Name"] == class_teacher]
-            if assigned_teachers:
-                teacher = assigned_teachers[0]
-                teacher_info = ", ".join(f"{key}: {value}" for key, value in teacher.items())
-                tk.Label(class_frame, text=f"Teacher Info: {teacher_info}").grid(row=3, column=0, sticky="w")
-                
-            row_num +=1
-                
-        self.lbl_management = tk.Label(record_window, text="Management", font=("Arial", 14))
-        self.lbl_management.pack()
-        
-        #Update the Canvas scrol region to fit the entire frame
+        self.lbl_teachers = tk.Label(records_frame, text="Teachers", font=("Arial", 14, "bold"))
+        self.lbl_teachers.grid(row=0, column=1, padx=10, pady=10, sticky="w")
+
+        # Display student records
+        row_num = 1
+        if self.students:
+            for student in self.students:
+                student_frame = tk.Frame(records_frame, bd=2, relief=tk.GROOVE)
+                student_frame.grid(row=row_num, column=0, pady=5, padx=5, sticky="ew")
+
+                for key, value in student.items():
+                    tk.Label(student_frame, text=f"{key}: {value}").pack(anchor="w")
+
+                row_num += 1
+        else:
+            tk.Label(records_frame, text="No student records found.").grid(row=row_num, column=0, pady=10, padx=10, sticky="w")
+
+        # Display teacher records
+        row_num = 1
+        if self.teachers:
+            for teacher in self.teachers:
+                teacher_frame = tk.Frame(records_frame, bd=2, relief=tk.GROOVE)
+                teacher_frame.grid(row=row_num, column=1, pady=5, padx=5, sticky="ew")
+
+                for key, value in teacher.items():
+                    tk.Label(teacher_frame, text=f"{key}: {value}").pack(anchor="w")
+
+                row_num += 1
+        else:
+            tk.Label(records_frame, text="No teacher records found.").grid(row=row_num, column=1, pady=10, padx=10, sticky="w")
+
+        # Update the Canvas scroll region to fit the entire frame
         records_frame.update_idletasks()
         canvas.config(scrollregion=canvas.bbox("all"))
 
- 
-
+    #Code For the Profit/Loss module
     def check_profit_loss(self):
         profit_loss_window = tk.Toplevel(self.master)
         profit_loss_window.title("Profit/Loss Analysis")
-        profit_loss_window.geometry("600x400")
-        
-        total_profit_loss = 0
-        
-        for class_name, details in self.classes.items():
-            class_frame = tk.Frame(profit_loss_window, bd=2, relief=tk.GROOVE)
-            class_frame.pack(pady=10, padx=10, fill=tk.X)
-            
-            tk.Label(class_frame, text=f"Class: {class_name}", font=("Arial",12, "bold")).grid(row=0, column=0, columnspan=2,sticky="w")
-            tk.Label(class_frame, text=f"Fees: ${details['fees']}").grid(row=1,column=0,sticky="w")
-            tk.Label(class_frame, text=f"Feeding Fees: ${details['feeding_fees']}").grid(row=2, column=0, sticky="w")
-            tk.Label(class_frame, text=f"Teacher: {details['teacher']}").grid(row=3, column=0, sticky="w")
-            
-            total_students = len(details["students"])
-            tk.Label(class_frame, text=f"Total Students: {total_students}").grid(row=1, column=1, sticky="w")
-          
-            income = total_students * (details["fees"] + details["feeding_fees"])
-            expenses = total_students * details["feeding fees"]
-            profit_loss = income - expenses
-            total_profit_loss += profit_loss
-            
-            tk.Label(class_frame, text=f"Income: ${income}").grid(row=2, column=1, sticky="w")
-            tk.Label(class_frame, text=f"Expenses: ${expenses}").grid(row=3, column=1, sticky="w")
-            tk.Label(class_frame, text=f"Profit/Loss: ${profit_loss}", fg="green" if profit_loss >= 0 else "red").grid(row=4, column=1, sticky="w")
-            
-            tk.Label(profit_loss_window, text=f"Total Profit/Loss: ${total_profit_loss}", font=("Arial", 14, "bold")).pack(pady=10)
-                     
-        pass
+        profit_loss_window.geometry("400x300")
+
+        # Calculations
+        total_income = sum(student["Fees"] for student in self.students)
+        total_expense = sum(teacher["Teacher Salary"] for teacher in self.teachers)
+        profit_loss = total_income - total_expense
+
+        # Display results
+        tk.Label(profit_loss_window, text=f"Total Income: {total_income}").pack(pady=10)
+        tk.Label(profit_loss_window, text=f"Total Expenses: {total_expense}").pack(pady=10)
+        tk.Label(profit_loss_window, text=f"Profit/Loss: {profit_loss}").pack(pady=10)
+
+        if profit_loss > 0:
+            tk.Label(profit_loss_window, text="Profit", fg="green").pack(pady=10)
+        else:
+            tk.Label(profit_loss_window, text="Loss", fg="red").pack(pady=10)
 
 def main():
     root = tk.Tk()
